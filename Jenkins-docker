@@ -10,7 +10,7 @@ pipeline{
     stages{
         stage("Git Checkout"){
             steps{
-                git credentialsId: 'javahome2', url: 'https://github.com/srinicloud87/myweb.git'
+                git credentialsId: 'javahome2', url: 'https://github.com/umamaheshjosh/myweb.git'
             }
         }
         stage("Maven Build"){
@@ -25,7 +25,7 @@ pipeline{
                        [
                             artifactId: 'myweb', 
                             classifier: '', 
-                            file: "target/myweb-8.2.0.war", 
+                            file: "target/myweb-8.2.1.war", 
                             type: 'war'
                        ]
                   ], 
@@ -35,12 +35,12 @@ pipeline{
                   nexusVersion: 'nexus3', 
                   protocol: 'http', 
                   repository: 'sample-releases', 
-                  version: '8.2.0'  
+                  version: '8.2.1'  
               }
             }
         stage('Build Docker Image'){
             steps{
-                 sh 'docker build -t deepikac2021/spring-boot-mongo .'
+                 sh 'docker build -t umamaheshjsrk/spring-boot-mongo .'
                  sh 'docker build -t tomcat:${BUILD_NUMBER} .'
                  sh 'docker run -itd --name srini36 -p 2900:8080 tomcat:${BUILD_NUMBER}'
              }
@@ -48,9 +48,9 @@ pipeline{
         stage('Push Docker Image'){
              steps{
                   withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIALS', variable: 'DOCKER_HUB_CREDENTIALS')]) {
-                      sh "docker login -u deepikac2021 -p ${DOCKER_HUB_CREDENTIALS}"
+                      sh "docker login -u umamaheshjsrk -p ${DOCKER_HUB_CREDENTIALS}"
             }
-            sh 'docker push deepikac2021/spring-boot-mongo'
+            sh 'docker push umamaheshjsrk/spring-boot-mongo'
         }
       }
         
