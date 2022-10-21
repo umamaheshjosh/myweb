@@ -42,7 +42,7 @@ pipeline{
             steps{
                  sh 'docker build -t umamaheshjsrk/spring-boot-mongo .'
                  sh 'docker build -t tomcat:${BUILD_NUMBER} .'
-                 sh 'docker run -itd --name uma -p 2900:8080 tomcat:${BUILD_NUMBER}'
+                 sh 'docker run -itd --name sai -p 2900:8080 tomcat:${BUILD_NUMBER}'
              }
          }
         stage('Push Docker Image'){
